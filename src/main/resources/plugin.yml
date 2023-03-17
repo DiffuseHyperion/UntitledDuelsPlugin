@@ -1,0 +1,7 @@
+name: UntitledDuelsPlugin
+version: '${project.version}'
+main: me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin
+api-version: 1.19
+commands:
+  arena:
+    usage: /arena (create/join) (name)
