@@ -1,5 +1,8 @@
 package me.diffusehyperion.untitledduelsplugin;
 
+import me.diffusehyperion.untitledduelsplugin.Commands.Arena;
+import me.diffusehyperion.untitledduelsplugin.Commands.Stats;
+import me.diffusehyperion.untitledduelsplugin.Commands.Versus;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -11,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public final class UntitledDuelsPlugin extends JavaPlugin {
 
@@ -21,7 +25,9 @@ public final class UntitledDuelsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         initConfig();
-        getCommand("arena").setExecutor(new Arena());
+        Objects.requireNonNull(getCommand("arena")).setExecutor(new Arena());
+        Objects.requireNonNull(getCommand("stats")).setExecutor(new Stats());
+        Objects.requireNonNull(getCommand("1v1")).setExecutor(new Versus());
         getServer().getPluginManager().registerEvents(new DuelsPlayerListener(), this);
     }
 

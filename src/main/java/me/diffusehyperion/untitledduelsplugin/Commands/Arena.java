@@ -1,11 +1,11 @@
-package me.diffusehyperion.untitledduelsplugin;
+package me.diffusehyperion.untitledduelsplugin.Commands;
 
+import me.diffusehyperion.untitledduelsplugin.PreConditions;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 
@@ -14,7 +14,8 @@ import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.*;
 public class Arena implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if (!(commandSender instanceof Player)) {
+        if (!PreConditions.isPlayerType(commandSender)) {
+            commandSender.sendMessage(ChatColor.RED + "You can only run this command as a player!");
             return true;
         }
         Player p = (Player) commandSender;
@@ -54,6 +55,7 @@ public class Arena implements CommandExecutor {
 
                 if (!PreConditions.isArena(arenaName)) {
                     p.sendMessage(ChatColor.RED + "There is no arena called " + arenaName + "!");
+                    return true;
                 }
 
                 if (!PreConditions.isOwner(arenaName, p)) {
@@ -61,6 +63,10 @@ public class Arena implements CommandExecutor {
                     return true;
                 }
                 World world = Bukkit.getWorld(arenaName);
+                if (Objects.isNull(world)) {
+                    p.sendMessage(ChatColor.RED + "da error!");
+                    return true;
+                }
                 p.teleport(new Location(world, 0.5, 1, 0.5));
                 p.setGameMode(GameMode.CREATIVE);
                 p.sendMessage(ChatColor.GREEN + "Done!");
@@ -87,7 +93,7 @@ public class Arena implements CommandExecutor {
 
                 World playerWorld = p.getWorld();
                 String arenaName = playerWorld.getName();
-                String dataName = "areans." + arenaName;
+                String dataName = "arenas." + arenaName;
                 if (!PreConditions.isArena(arenaName)) {
                     p.sendMessage(ChatColor.RED + "You are not in an arena world!");
                     return true;
@@ -97,9 +103,21 @@ public class Arena implements CommandExecutor {
                     return true;
                 }
 
-                data.set(dataName + "." + spawn, p.getLocation());
+                String spawnName;
+                if (spawn == 1) {
+                    spawnName = dataName + "." + "spawn1";
+                } else {
+                    spawnName = dataName + "." + "spawn2";
+                }
+                data.set(spawnName + ".x", p.getLocation().getBlockX());
+                data.set(spawnName + ".y", p.getLocation().getBlockY());
+                data.set(spawnName + ".z", p.getLocation().getBlockZ());
+                data.set(spawnName + ".pitch", p.getLocation().getPitch());
+                data.set(spawnName + ".yaw", p.getLocation().getYaw());
+                // reconstruct a location when it needs to be used
+
                 saveData();
-                p.sendMessage(ChatColor.GREEN + "Spawn point " + spawn + "has been set!");
+                p.sendMessage(ChatColor.GREEN + "Spawn point " + spawn + " has been set!");
         }
         return true;
     }

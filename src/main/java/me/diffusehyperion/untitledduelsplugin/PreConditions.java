@@ -1,5 +1,6 @@
 package me.diffusehyperion.untitledduelsplugin;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
@@ -18,5 +19,9 @@ public class PreConditions {
 
     public static boolean isPlayer(String playerName) {
         return data.contains("players." + playerName);
+    }
+
+    public static boolean isPlayerType(CommandSender sender) {
+        return sender instanceof Player;
     }
 }

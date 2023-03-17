@@ -5,3 +5,7 @@ api-version: 1.19
 commands:
   arena:
     usage: /arena (create/join) (name)
+  stats:
+    usage: /stats (wins/loses) (player)
+  1v1:
+    usage: /1v1 (player)

@@ -2,12 +2,19 @@ package me.diffusehyperion.untitledduelsplugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.data;
+import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.saveData;
 
 public class DuelsPlayer {
     private int wins;
     private int loses;
+
+    /**
+     * The player this player is or will be fighting, if there is any.
+     */
+    private Player fightingPlayer;
 
     private final OfflinePlayer player;
 
@@ -51,6 +58,23 @@ public class DuelsPlayer {
 
     public OfflinePlayer getPlayer() {
         return player;
+    }
+
+    public Player getFightingPlayer() {
+        return fightingPlayer;
+    }
+
+    public void setFightingPlayer(Player player) {
+        this.fightingPlayer = player;
+    }
+
+    /**
+     * Saves wins and loses to data.yml.
+     */
+    public void saveStats() {
+        data.set("players." + player.getName() + ".wins", wins);
+        data.set("players." + player.getName() + ".loses", loses);
+        saveData();
     }
 
 
