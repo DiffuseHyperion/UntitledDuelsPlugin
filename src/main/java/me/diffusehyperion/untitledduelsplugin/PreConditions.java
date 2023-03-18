@@ -24,4 +24,8 @@ public class PreConditions {
     public static boolean isPlayerType(CommandSender sender) {
         return sender instanceof Player;
     }
+
+    public static boolean isKit(String kitName) {
+        return data.contains("kits." + kitName);
+    }
 }

@@ -1,9 +1,10 @@
 package me.diffusehyperion.untitledduelsplugin.Commands;
 
+import me.diffusehyperion.untitledduelsplugin.Arena;
 import me.diffusehyperion.untitledduelsplugin.DuelsPlayer;
+import me.diffusehyperion.untitledduelsplugin.GUIs.VersusGUI;
+import me.diffusehyperion.untitledduelsplugin.Kit;
 import me.diffusehyperion.untitledduelsplugin.PreConditions;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -16,8 +17,10 @@ import java.util.Objects;
 import static me.diffusehyperion.untitledduelsplugin.DuelsPlayerListener.duelsPlayerMap;
 
 // used for command '/1v1"
+// if used as /1v1 (Player) (Arena) (Kit), directly send request
 
 public class Versus implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (!PreConditions.isPlayerType(commandSender)) {
@@ -26,7 +29,7 @@ public class Versus implements CommandExecutor {
         }
 
         Player p = (Player) commandSender;
-        if (args.length != 1) {
+        if (args.length == 0) {
             p.sendMessage(ChatColor.RED + "/1v1 (player)");
             return true;
         }
@@ -51,24 +54,17 @@ public class Versus implements CommandExecutor {
 
         if (Objects.equals(targetDuelsPlayer.getFightingPlayer(), p)) {
             // accpeted fight
-            Bukkit.broadcastMessage("fighting rn lmao");
+            Bukkit.broadcastMessage("fighting rn lmao, arena is " + args[1] + ", kit is " + args[2]);
         } else {
-            // sending fight request
-            DuelsPlayer senderDuelsPlayer = duelsPlayerMap.get(p);
-            senderDuelsPlayer.setFightingPlayer(targetPlayer);
-            p.sendMessage(ChatColor.GREEN + "Sending duel request to " + targetPlayer.getDisplayName() + "!");
-
-            targetPlayer.spigot().sendMessage(
-                    new ComponentBuilder(p.getDisplayName() + " wants to 1v1 you!").color(net.md_5.bungee.api.ChatColor.RED).create());
-            targetPlayer.spigot().sendMessage(
-                    new ComponentBuilder("Accept?       ").color(net.md_5.bungee.api.ChatColor.DARK_RED)
-                            .append("[YES]").color(net.md_5.bungee.api.ChatColor.GREEN)
-                            .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/1v1 " + p.getDisplayName()))
-                            .append("   ")
-                            .append("[NO]").color(net.md_5.bungee.api.ChatColor.RED)
-                            .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/kill DiffuseHyperion"))
-                            .create());
+            if (args.length != 1) {
+                return true;
+            }
+            new VersusGUI(targetPlayer).openInventory(p);
         }
         return true;
+    }
+
+    public static void startDuel(Player player1, Player player2, Arena arena, Kit kit) {
+
     }
 }

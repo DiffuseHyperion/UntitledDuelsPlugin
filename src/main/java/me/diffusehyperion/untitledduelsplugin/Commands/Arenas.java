@@ -1,5 +1,6 @@
 package me.diffusehyperion.untitledduelsplugin.Commands;
 
+import me.diffusehyperion.untitledduelsplugin.Arena;
 import me.diffusehyperion.untitledduelsplugin.PreConditions;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.*;
 
-public class Arena implements CommandExecutor {
+public class Arenas implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (!PreConditions.isPlayerType(commandSender)) {
@@ -20,9 +21,13 @@ public class Arena implements CommandExecutor {
         }
         Player p = (Player) commandSender;
 
+        if (args.length == 0) {
+            p.sendMessage(ChatColor.RED + "/arena (create/join/set)");
+            return true;
+        }
         switch (args[0]) {
             case "create": {
-                if (args.length != 2) {
+                    if (args.length != 2) {
                     p.sendMessage(ChatColor.RED + "/arena create (name)");
                     return true;
                 }
@@ -44,7 +49,7 @@ public class Arena implements CommandExecutor {
                 saveData();
 
                 p.sendMessage(ChatColor.GREEN + "Done! Rejoin the world with /arena join " + arenaName);
-                break;
+                return true;
             }
             case "join": {
                 if (args.length != 2) {
@@ -64,15 +69,16 @@ public class Arena implements CommandExecutor {
                 }
                 World world = Bukkit.getWorld(arenaName);
                 if (Objects.isNull(world)) {
-                    p.sendMessage(ChatColor.RED + "da error!");
+                    p.sendMessage(ChatColor.RED + "Could not find world named " + arenaName + "!");
+                    p.sendMessage(ChatColor.RED + "This is a bug, please report it to the creator!");
                     return true;
                 }
                 p.teleport(new Location(world, 0.5, 1, 0.5));
                 p.setGameMode(GameMode.CREATIVE);
                 p.sendMessage(ChatColor.GREEN + "Done!");
-                break;
+                return true;
             }
-            case "set":
+            case "set": {
                 if (args.length != 2) {
                     p.sendMessage(ChatColor.RED + "/arena set (1/2)");
                     return true;
@@ -117,8 +123,16 @@ public class Arena implements CommandExecutor {
                 // reconstruct a location when it needs to be used
 
                 saveData();
+                try {
+                    Arena.arenaList.add(new Arena(arenaName));
+                } catch (Exception ignored) {}
                 p.sendMessage(ChatColor.GREEN + "Spawn point " + spawn + " has been set!");
+                return true;
+            }
+            default: {
+                p.sendMessage(ChatColor.RED + "/arena (create/join/set)");
+                return true;
+            }
         }
-        return true;
     }
 }

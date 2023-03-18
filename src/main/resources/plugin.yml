@@ -3,9 +3,11 @@ version: '${project.version}'
 main: me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin
 api-version: 1.19
 commands:
-  arena:
-    usage: /arena (create/join) (name)
+  arenas:
+    usage: /arena (create/join/set)
   stats:
     usage: /stats (wins/loses) (player)
   1v1:
     usage: /1v1 (player)
+  kits:
+    usage: /kits (create/delete/list)
