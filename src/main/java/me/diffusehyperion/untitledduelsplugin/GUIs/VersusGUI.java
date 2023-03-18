@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -177,6 +178,7 @@ public class VersusGUI implements Listener {
                 DuelsPlayer senderDuelsPlayer = duelsPlayerMap.get(p);
                 senderDuelsPlayer.setFightingPlayer(duelingPlayer);
                 p.sendMessage(ChatColor.GREEN + "Sending duel request to " + duelingPlayer.getDisplayName() + "!");
+                p.closeInventory();
 
                 duelingPlayer.spigot().sendMessage(
                         new ComponentBuilder(p.getDisplayName() + " wants to 1v1 you!").color(net.md_5.bungee.api.ChatColor.RED).create());
@@ -188,6 +190,10 @@ public class VersusGUI implements Listener {
                                 .append("[NO]").color(net.md_5.bungee.api.ChatColor.RED)
                                 .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/kill DiffuseHyperion"))
                                 .create());
+
+                HandlerList.unregisterAll(this);
+                HandlerList.unregisterAll(versusArenasGUI);
+                HandlerList.unregisterAll(versusKitsGUI);
                 break;
             }
             case 15: {
