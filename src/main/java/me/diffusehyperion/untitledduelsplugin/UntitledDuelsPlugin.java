@@ -8,6 +8,7 @@ import me.diffusehyperion.untitledduelsplugin.Commands.Stats;
 import me.diffusehyperion.untitledduelsplugin.Commands.Versus;
 import me.diffusehyperion.untitledduelsplugin.Utilities.DuelsPlayerListener;
 import me.diffusehyperion.untitledduelsplugin.Utilities.EmptyChunkGenerator;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -82,9 +83,16 @@ public final class UntitledDuelsPlugin extends JavaPlugin {
     }
 
     public static World copyWorld(World world, String name) {
-        WorldCreator wc = new WorldCreator(name);
+        File worldDir = world.getWorldFolder();
+        try {
+            FileUtils.copyDirectory(worldDir, new File(worldDir.getParent(), name));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        File uid = new File(worldDir.getParent() + File.separator + name + File.separator + "uid.dat");
+        uid.delete();
 
-        wc.copy(world);
+        WorldCreator wc = new WorldCreator(name);
 
         return wc.createWorld();
     }
