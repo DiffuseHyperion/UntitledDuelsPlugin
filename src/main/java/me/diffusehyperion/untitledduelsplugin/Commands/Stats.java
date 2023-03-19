@@ -1,6 +1,6 @@
 package me.diffusehyperion.untitledduelsplugin.Commands;
 
-import me.diffusehyperion.untitledduelsplugin.PreConditions;
+import me.diffusehyperion.untitledduelsplugin.Utilities.PreConditions;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

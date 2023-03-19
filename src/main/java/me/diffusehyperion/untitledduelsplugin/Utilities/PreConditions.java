@@ -1,4 +1,4 @@
-package me.diffusehyperion.untitledduelsplugin;
+package me.diffusehyperion.untitledduelsplugin.Utilities;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

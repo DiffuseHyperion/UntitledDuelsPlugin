@@ -1,8 +1,8 @@
 package me.diffusehyperion.untitledduelsplugin.GUIs;
 
-import me.diffusehyperion.untitledduelsplugin.Arena;
-import me.diffusehyperion.untitledduelsplugin.DuelsPlayer;
-import me.diffusehyperion.untitledduelsplugin.Kit;
+import me.diffusehyperion.untitledduelsplugin.Classes.Arena;
+import me.diffusehyperion.untitledduelsplugin.Classes.DuelsPlayer;
+import me.diffusehyperion.untitledduelsplugin.Classes.Kit;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +24,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
-import static me.diffusehyperion.untitledduelsplugin.DuelsPlayerListener.duelsPlayerMap;
+import static me.diffusehyperion.untitledduelsplugin.Utilities.DuelsPlayerListener.duelsPlayerMap;
 import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.plugin;
 
 public class VersusGUI implements Listener {
@@ -208,6 +209,13 @@ public class VersusGUI implements Listener {
     public void onInventoryClick(final InventoryDragEvent e) {
         if (e.getInventory().equals(inv)) {
             e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryLeave(InventoryCloseEvent e) {
+        if (e.getInventory().equals(inv)) {
+            HandlerList.unregisterAll(this);
         }
     }
 

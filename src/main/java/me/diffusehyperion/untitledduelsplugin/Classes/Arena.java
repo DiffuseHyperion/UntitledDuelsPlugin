@@ -1,6 +1,5 @@
-package me.diffusehyperion.untitledduelsplugin;
+package me.diffusehyperion.untitledduelsplugin.Classes;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -8,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.createVoidWorld;
 import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.data;
 
 public class Arena {
@@ -41,12 +41,8 @@ public class Arena {
             throw new Exception("Could not find an arena named " + name + " in data.yml!");
         }
 
-        this.world = Bukkit.getWorld(name);
-        /*
-        if (Objects.isNull(world)) {
-            throw new Exception("Could not find an world named " + name + " in the server's root directory!");
-        }
-         */
+        this.world = createVoidWorld(name);
+
         this.owner = data.getString(dataName + ".owner");
         this.spawn1 = new Location(world,
                 data.getInt(dataName + ".spawn1.x"),
@@ -64,6 +60,9 @@ public class Arena {
     }
 
     public static void initList() {
+        if (Objects.isNull(data.getConfigurationSection("arenas"))) {
+            return;
+        }
         for (String arenaName : Objects.requireNonNull(data.getConfigurationSection("arenas")).getKeys(false)) {
             try {
                 arenaList.add(new Arena(arenaName));

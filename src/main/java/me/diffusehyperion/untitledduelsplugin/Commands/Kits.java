@@ -1,7 +1,7 @@
 package me.diffusehyperion.untitledduelsplugin.Commands;
 
-import me.diffusehyperion.untitledduelsplugin.Kit;
-import me.diffusehyperion.untitledduelsplugin.PreConditions;
+import me.diffusehyperion.untitledduelsplugin.Classes.Kit;
+import me.diffusehyperion.untitledduelsplugin.Utilities.PreConditions;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -50,11 +50,13 @@ public class Kits implements CommandExecutor {
                     }
                     data.set(dataName + "." + i, item);
                 }
+                data.set(dataName + ".owner", p.getDisplayName());
                 saveData();
                 try {
                     Kit.kitList.add(new Kit(kitName));
                 } catch (Exception ignored) {}
                 p.sendMessage(ChatColor.GREEN + "Done!");
+                break;
             }
             case "delete": {
                 if (args.length != 2) {
@@ -70,19 +72,20 @@ public class Kits implements CommandExecutor {
                 data.set(dataName, null);
                 saveData();
                 p.sendMessage(ChatColor.GREEN + "Done!");
-                return true;
+                break;
             }
             case "list": {
                 p.sendMessage(ChatColor.GREEN + "Available kits:");
                 for (String kitName : Objects.requireNonNull(data.getConfigurationSection("kits")).getKeys(false)) {
                     p.sendMessage(kitName);
                 }
-                return true;
+                break;
             }
             default: {
                 p.sendMessage(ChatColor.RED + "/kits (create/delete/list)");
-                return true;
+                break;
             }
         }
+        return true;
     }
 }

@@ -1,7 +1,7 @@
 package me.diffusehyperion.untitledduelsplugin.Commands;
 
-import me.diffusehyperion.untitledduelsplugin.Arena;
-import me.diffusehyperion.untitledduelsplugin.PreConditions;
+import me.diffusehyperion.untitledduelsplugin.Classes.Arena;
+import me.diffusehyperion.untitledduelsplugin.Utilities.PreConditions;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -115,9 +115,9 @@ public class Arenas implements CommandExecutor {
                 } else {
                     spawnName = dataName + "." + "spawn2";
                 }
-                data.set(spawnName + ".x", p.getLocation().getBlockX());
-                data.set(spawnName + ".y", p.getLocation().getBlockY());
-                data.set(spawnName + ".z", p.getLocation().getBlockZ());
+                data.set(spawnName + ".x", p.getLocation().getX());
+                data.set(spawnName + ".y", p.getLocation().getY());
+                data.set(spawnName + ".z", p.getLocation().getZ());
                 data.set(spawnName + ".pitch", p.getLocation().getPitch());
                 data.set(spawnName + ".yaw", p.getLocation().getYaw());
                 // reconstruct a location when it needs to be used

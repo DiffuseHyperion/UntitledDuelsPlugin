@@ -1,4 +1,4 @@
-package me.diffusehyperion.untitledduelsplugin;
+package me.diffusehyperion.untitledduelsplugin.Classes;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryType;
@@ -44,6 +44,9 @@ public class Kit {
     }
 
     public static void initList() {
+        if (Objects.isNull(data.getConfigurationSection("kits"))) {
+            return;
+        }
         for (String kitName : Objects.requireNonNull(data.getConfigurationSection("kits")).getKeys(false)) {
             try {
                 kitList.add(new Kit(kitName));

@@ -1,5 +1,6 @@
-package me.diffusehyperion.untitledduelsplugin;
+package me.diffusehyperion.untitledduelsplugin.Utilities;
 
+import me.diffusehyperion.untitledduelsplugin.Classes.DuelsPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

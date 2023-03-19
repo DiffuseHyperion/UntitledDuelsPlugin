@@ -1,13 +1,15 @@
 package me.diffusehyperion.untitledduelsplugin.GUIs;
 
-import me.diffusehyperion.untitledduelsplugin.Arena;
+import me.diffusehyperion.untitledduelsplugin.Classes.Arena;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -97,6 +99,13 @@ public class VersusArenasGUI implements Listener {
     public void onInventoryClick(final InventoryDragEvent e) {
         if (e.getInventory().equals(inv)) {
             e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryLeave(InventoryCloseEvent e) {
+        if (e.getInventory().equals(inv)) {
+            HandlerList.unregisterAll(this);
         }
     }
 }

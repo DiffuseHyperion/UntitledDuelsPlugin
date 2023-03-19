@@ -1,4 +1,4 @@
-package me.diffusehyperion.untitledduelsplugin;
+package me.diffusehyperion.untitledduelsplugin.Classes;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
