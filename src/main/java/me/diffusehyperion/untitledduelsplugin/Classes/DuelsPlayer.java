@@ -48,12 +48,20 @@ public class DuelsPlayer {
         this.wins = wins;
     }
 
+    public void incrementWins() {
+        this.wins++;
+    }
+
     public int getLoses() {
         return loses;
     }
 
     public void setLoses(int loses) {
         this.loses = loses;
+    }
+
+    public void incrementLoses() {
+        this.loses++;
     }
 
     public OfflinePlayer getPlayer() {
