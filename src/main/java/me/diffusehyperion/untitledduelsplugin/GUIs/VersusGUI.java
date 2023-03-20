@@ -43,7 +43,6 @@ public class VersusGUI implements Listener {
         this.kit = null;
         // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
         inv = Bukkit.createInventory(null, 27, "Dueling " + duelingPlayer.getDisplayName());
-        Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
 
         // Put the items into the inventory
         initializeItems();
@@ -113,7 +112,7 @@ public class VersusGUI implements Listener {
                     break;
                 }
                 default: {
-                    inv.setItem(i, createGuiItem(Material.LIGHT_GRAY_STAINED_GLASS_PANE, ""));
+                    inv.setItem(i, createGuiItem(Material.LIGHT_GRAY_STAINED_GLASS_PANE, " "));
                     break;
                 }
             }
@@ -139,6 +138,7 @@ public class VersusGUI implements Listener {
 
     // You can open the inventory with this
     public void openInventory(final HumanEntity ent) {
+        Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
         ent.openInventory(inv);
     }
 

@@ -67,7 +67,6 @@ public class Versus implements CommandExecutor {
 
         if (Objects.equals(targetDuelsPlayer.getFightingPlayer(), p)) {
             // accpeted fight
-            Bukkit.broadcastMessage("fighting rn lmao, arena is " + args[1] + ", kit is " + args[2]);
             try {
                 new Fight(p, targetPlayer, new Arena(args[1]), new Kit(args[2])).startFight();
             } catch (Exception ignored) {}

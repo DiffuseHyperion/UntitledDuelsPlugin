@@ -29,7 +29,6 @@ public class VersusArenasGUI implements Listener {
         // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
         inv = Bukkit.createInventory(null, 9, "Select Arena");
         this.gui = gui;
-        Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
 
         // Put the items into the inventory
         initializeItems();
@@ -65,6 +64,7 @@ public class VersusArenasGUI implements Listener {
     // You can open the inventory with this
     public void openInventory(final HumanEntity ent) {
         initializeItems();
+        Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
         ent.openInventory(inv);
     }
 
