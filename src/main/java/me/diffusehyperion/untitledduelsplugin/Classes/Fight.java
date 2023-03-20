@@ -2,6 +2,7 @@ package me.diffusehyperion.untitledduelsplugin.Classes;
 
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -29,6 +30,13 @@ public class Fight implements Listener {
     private Inventory originalPlayer1Inv;
     private Inventory originalPlayer2Inv;
 
+    private GameMode originalPlayer1GM;
+    private GameMode originalPlayer2GM;
+    private double originalPlayer1HP;
+    private double originalPlayer2HP;
+    private float originalPlayer1SAT;
+    private float originalPlayer2SAT;
+
     private Player winner;
 
     private final Arena arena;
@@ -49,10 +57,12 @@ public class Fight implements Listener {
 
     public void startFight() {
         copiedWorld = copyWorld(arena.getWorld(), String.valueOf(UUID.randomUUID()));
+
         Location tpLoc1 = arena.getSpawn1();
         tpLoc1.setWorld(copiedWorld);
         Location tpLoc2 = arena.getSpawn2();
         tpLoc2.setWorld(copiedWorld);
+
         originalPlayer1Loc = player1.getLocation();
         player1.teleport(tpLoc1);
         originalPlayer2Loc = player2.getLocation();
@@ -62,6 +72,21 @@ public class Fight implements Listener {
         player1.getInventory().setContents(kit.getKit().getContents());
         originalPlayer2Inv = player2.getInventory();
         player2.getInventory().setContents(kit.getKit().getContents());
+
+        originalPlayer1GM = player1.getGameMode();
+        originalPlayer2GM = player2.getGameMode();
+        player1.setGameMode(GameMode.SURVIVAL);
+        player2.setGameMode(GameMode.SURVIVAL);
+
+        originalPlayer1HP = player1.getHealth();
+        originalPlayer2HP = player2.getHealth();
+        player1.setHealth(20);
+        player2.setHealth(20);
+
+        originalPlayer1SAT = player1.getSaturation();
+        originalPlayer2SAT = player2.getSaturation();
+        player1.setSaturation(5);
+        player2.setSaturation(5);
 
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
         new BukkitRunnable() {
@@ -122,6 +147,14 @@ public class Fight implements Listener {
             player2.teleport(originalPlayer2Loc);
             player1.getInventory().setContents(originalPlayer1Inv.getContents());
             player2.getInventory().setContents(originalPlayer2Inv.getContents());
+
+            player1.setGameMode(originalPlayer1GM);
+            player2.setGameMode(originalPlayer2GM);
+            player1.setHealth(originalPlayer1HP);
+            player2.setHealth(originalPlayer2HP);
+            player1.setSaturation(originalPlayer1SAT);
+            player2.setSaturation(originalPlayer2SAT);
+
             Bukkit.unloadWorld(copiedWorld, false);
             try {
                 FileUtils.deleteDirectory(copiedWorld.getWorldFolder());
