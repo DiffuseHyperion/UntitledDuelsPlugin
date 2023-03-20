@@ -78,8 +78,4 @@ public class Versus implements CommandExecutor {
         }
         return true;
     }
-
-    public static void startDuel(Player player1, Player player2, Arena arena, Kit kit) {
-
-    }
 }

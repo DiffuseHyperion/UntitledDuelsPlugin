@@ -1,10 +1,7 @@
 package me.diffusehyperion.untitledduelsplugin.Classes;
 
 import org.apache.commons.io.FileUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -64,13 +61,13 @@ public class Fight implements Listener {
         tpLoc2.setWorld(copiedWorld);
 
         originalPlayer1Loc = player1.getLocation();
-        player1.teleport(tpLoc1);
         originalPlayer2Loc = player2.getLocation();
+        player1.teleport(tpLoc1);
         player2.teleport(tpLoc2);
 
         originalPlayer1Inv = player1.getInventory();
-        player1.getInventory().setContents(kit.getKit().getContents());
         originalPlayer2Inv = player2.getInventory();
+        player1.getInventory().setContents(kit.getKit().getContents());
         player2.getInventory().setContents(kit.getKit().getContents());
 
         originalPlayer1GM = player1.getGameMode();
@@ -128,13 +125,13 @@ public class Fight implements Listener {
             if (e.getEntity().equals(player2)) {
                 // player 1 won
                 winner = player1;
-                Bukkit.broadcastMessage(player1.getDisplayName() + " won against " + player2.getDisplayName() + "!");
+                Bukkit.broadcastMessage(ChatColor.YELLOW + player1.getDisplayName() + " won against " + player2.getDisplayName() + " with " + player1.getHealth() + " HP left!");
                 duelsPlayerMap.get(player1).incrementWins();
                 duelsPlayerMap.get(player2).incrementLoses();
             } else if (e.getEntity().equals(player1)) {
                 // player 2 won
                 winner = player2;
-                Bukkit.broadcastMessage(player2.getDisplayName() + " won against " + player1.getDisplayName() + "!");
+                Bukkit.broadcastMessage(ChatColor.YELLOW + player2.getDisplayName() + " won against " + player1.getDisplayName() + " with " + player2.getHealth() + " HP left!");
                 duelsPlayerMap.get(player2).incrementWins();
                 duelsPlayerMap.get(player1).incrementLoses();
             } else {
