@@ -13,3 +13,5 @@ commands:
     usage: /1v1 (player)
   kits:
     usage: /kits (create/delete/list)
+  lobby:
+    usage: /lobby (set/tp)

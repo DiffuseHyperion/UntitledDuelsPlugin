@@ -2,10 +2,7 @@ package me.diffusehyperion.untitledduelsplugin;
 
 import me.diffusehyperion.untitledduelsplugin.Classes.Arena;
 import me.diffusehyperion.untitledduelsplugin.Classes.Kit;
-import me.diffusehyperion.untitledduelsplugin.Commands.Arenas;
-import me.diffusehyperion.untitledduelsplugin.Commands.Kits;
-import me.diffusehyperion.untitledduelsplugin.Commands.Stats;
-import me.diffusehyperion.untitledduelsplugin.Commands.Versus;
+import me.diffusehyperion.untitledduelsplugin.Commands.*;
 import me.diffusehyperion.untitledduelsplugin.Utilities.DuelsPlayerListener;
 import me.diffusehyperion.untitledduelsplugin.Utilities.EmptyChunkGenerator;
 import org.apache.commons.io.FileUtils;
@@ -37,6 +34,7 @@ public final class UntitledDuelsPlugin extends JavaPlugin {
         Objects.requireNonNull(getCommand("stats")).setExecutor(new Stats());
         Objects.requireNonNull(getCommand("1v1")).setExecutor(new Versus());
         Objects.requireNonNull(getCommand("kits")).setExecutor(new Kits());
+        Objects.requireNonNull(getCommand("lobby")).setExecutor(new Lobby());
         getServer().getPluginManager().registerEvents(new DuelsPlayerListener(), this);
     }
 

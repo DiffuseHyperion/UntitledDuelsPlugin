@@ -27,7 +27,7 @@ public class Arenas implements CommandExecutor {
         }
         switch (args[0]) {
             case "create": {
-                    if (args.length != 2) {
+                if (args.length != 2) {
                     p.sendMessage(ChatColor.RED + "/arena create (name)");
                     return true;
                 }
