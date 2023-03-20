@@ -67,6 +67,7 @@ public class Versus implements CommandExecutor {
 
         if (Objects.equals(targetDuelsPlayer.getFightingPlayer(), p)) {
             // accpeted fight
+            duelsPlayerMap.get(p).setFightingPlayer(targetPlayer);
             try {
                 new Fight(p, targetPlayer, new Arena(args[1]), new Kit(args[2])).startFight();
             } catch (Exception ignored) {}
