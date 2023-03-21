@@ -140,6 +140,8 @@ public class Fight implements Listener {
 
             duelsPlayerMap.get(player1).saveStats();
             duelsPlayerMap.get(player2).saveStats();
+            duelsPlayerMap.get(player1).setFightingPlayer(null);
+            duelsPlayerMap.get(player2).setFightingPlayer(null);
             player1.teleport(originalPlayer1Loc);
             player2.teleport(originalPlayer2Loc);
             player1.getInventory().setContents(originalPlayer1Inv.getContents());
@@ -152,9 +154,9 @@ public class Fight implements Listener {
             player1.setSaturation(originalPlayer1SAT);
             player2.setSaturation(originalPlayer2SAT);
 
-            Bukkit.unloadWorld(copiedWorld, false);
             try {
                 FileUtils.deleteDirectory(copiedWorld.getWorldFolder());
+                Bukkit.unloadWorld(copiedWorld, false);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
