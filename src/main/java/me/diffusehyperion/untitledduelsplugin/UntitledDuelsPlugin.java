@@ -41,7 +41,7 @@ public final class UntitledDuelsPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("kits")).setExecutor(new Kits());
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new Lobby());
         getServer().getPluginManager().registerEvents(new DuelsPlayerListener(), this);
-        new LobbyListener();
+        LobbyListener.init();
     }
 
     @Override

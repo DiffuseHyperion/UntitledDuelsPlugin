@@ -18,7 +18,7 @@ import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.plugin;
 public class LobbyListener implements Listener {
     public static Team noCollisionTeam = null;
 
-    public LobbyListener() {
+    public static void init() {
         if (config.getBoolean("lobby.forcetp")) {
             if (Objects.isNull(new me.diffusehyperion.untitledduelsplugin.Classes.Location("lobby").toLocation())) {
                 Bukkit.getLogger().severe("'lobby.forcetp' was set to true in config.yml, but no lobby was set up!");
@@ -32,7 +32,7 @@ public class LobbyListener implements Listener {
             noCollisionTeam.setAllowFriendlyFire(true);
         }
 
-        Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new LobbyListener(), plugin);
         if (config.getBoolean("lobby.freezecam")) {
             Bukkit.getServer().getPluginManager().registerEvents(new LobbyFreezeCamListener(), plugin);
         }
