@@ -2,6 +2,7 @@ package me.diffusehyperion.untitledduelsplugin;
 
 import me.diffusehyperion.untitledduelsplugin.Classes.Arena;
 import me.diffusehyperion.untitledduelsplugin.Classes.Kit;
+import me.diffusehyperion.untitledduelsplugin.Classes.LobbyListener;
 import me.diffusehyperion.untitledduelsplugin.Commands.*;
 import me.diffusehyperion.untitledduelsplugin.Utilities.DuelsPlayerListener;
 import me.diffusehyperion.untitledduelsplugin.Utilities.EmptyChunkGenerator;
@@ -40,6 +41,7 @@ public final class UntitledDuelsPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("kits")).setExecutor(new Kits());
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new Lobby());
         getServer().getPluginManager().registerEvents(new DuelsPlayerListener(), this);
+        new LobbyListener();
     }
 
     @Override

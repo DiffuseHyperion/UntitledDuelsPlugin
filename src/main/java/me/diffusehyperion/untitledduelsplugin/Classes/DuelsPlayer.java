@@ -18,6 +18,8 @@ public class DuelsPlayer {
 
     private final OfflinePlayer player;
 
+    public boolean isFighting = false;
+
     public DuelsPlayer(OfflinePlayer player) {
         this.player = player;
         this.wins = 0;

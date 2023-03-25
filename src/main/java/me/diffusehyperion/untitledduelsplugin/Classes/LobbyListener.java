@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
@@ -32,6 +33,9 @@ public class LobbyListener implements Listener {
         }
 
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
+        if (config.getBoolean("lobby.freezecam")) {
+            Bukkit.getServer().getPluginManager().registerEvents(new LobbyFreezeCamListener(), plugin);
+        }
     }
 
     @EventHandler
@@ -52,6 +56,18 @@ public class LobbyListener implements Listener {
         }
         if (config.getBoolean("lobby.no_collision")) {
             noCollisionTeam.addEntry(e.getPlayer().getDisplayName());
+        }
+    }
+
+    public static class LobbyFreezeCamListener implements Listener {
+        @EventHandler
+        public void onPlayerMove(PlayerMoveEvent e) {
+            org.bukkit.Location lobby = new me.diffusehyperion.untitledduelsplugin.Classes.Location("lobby").toLocation();
+            if (Objects.isNull(lobby)) {
+                Bukkit.getLogger().severe("'lobby.freezecam' was set to true in config.yml, but no lobby was set up!");
+            } else {
+                e.getPlayer().teleport(lobby);
+            }
         }
     }
 }

@@ -99,6 +99,9 @@ public class Fight implements Listener {
         player1.setSaturation(5);
         player2.setSaturation(5);
 
+        duelsPlayerMap.get(player1).isFighting = true;
+        duelsPlayerMap.get(player2).isFighting = true;
+
         if (config.getBoolean("lobby.blindness")) {
             player1.removePotionEffect(PotionEffectType.BLINDNESS);
             player2.removePotionEffect(PotionEffectType.BLINDNESS);
@@ -148,16 +151,22 @@ public class Fight implements Listener {
             if (!(e.getEntity().equals(player1) || e.getEntity().equals(player2))) {
                 return;
             }
+
+            DuelsPlayer duelsPlayer1 = duelsPlayerMap.get(player1);
+            DuelsPlayer duelsPlayer2 = duelsPlayerMap.get(player2);
             assert player1 != null;
             assert player2 != null;
             player1.spigot().respawn();
             player2.spigot().respawn();
 
-            duelsPlayerMap.get(player1).saveStats();
-            duelsPlayerMap.get(player2).saveStats();
+            duelsPlayer1.saveStats();
+            duelsPlayer2.saveStats();
 
-            duelsPlayerMap.get(player1).setFightingPlayer(null);
-            duelsPlayerMap.get(player2).setFightingPlayer(null);
+            duelsPlayer1.setFightingPlayer(null);
+            duelsPlayer2.setFightingPlayer(null);
+
+            duelsPlayer1.isFighting = false;
+            duelsPlayer2.isFighting = false;
 
             if (Objects.nonNull(lobby)) {
                 player1.teleport(lobby);
@@ -195,14 +204,14 @@ public class Fight implements Listener {
                 // player 1 won
                 winner = player1;
                 Bukkit.broadcastMessage(ChatColor.YELLOW + player1.getDisplayName() + " won against " + player2.getDisplayName() + " with " + player1.getHealth() + " HP left!");
-                duelsPlayerMap.get(player1).incrementWins();
-                duelsPlayerMap.get(player2).incrementLoses();
+                duelsPlayer1.incrementWins();
+                duelsPlayer2.incrementLoses();
             } else if (e.getEntity().equals(player1)) {
                 // player 2 won
                 winner = player2;
                 Bukkit.broadcastMessage(ChatColor.YELLOW + player2.getDisplayName() + " won against " + player1.getDisplayName() + " with " + player2.getHealth() + " HP left!");
-                duelsPlayerMap.get(player2).incrementWins();
-                duelsPlayerMap.get(player1).incrementLoses();
+                duelsPlayer2.incrementWins();
+                duelsPlayer1.incrementLoses();
             }
             try {
                 FileUtils.deleteDirectory(copiedWorld.getWorldFolder());

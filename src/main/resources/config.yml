@@ -3,3 +3,4 @@ lobby:
   blindness: false
   invisibility: false
   no_collision: false
+  freezecam: false
