@@ -2,6 +2,7 @@ name: UntitledDuelsPlugin
 version: '${project.version}'
 main: me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin
 api-version: 1.19
+load: POSTWORLD
 libraries:
   - commons-io:commons-io:2.11.0
 commands:

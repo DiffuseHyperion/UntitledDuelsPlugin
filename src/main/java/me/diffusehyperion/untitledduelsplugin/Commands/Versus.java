@@ -65,6 +65,13 @@ public class Versus implements CommandExecutor {
             return true;
         }
 
+
+        if (Objects.nonNull(duelsPlayerMap.get(p).getFightingPlayer())) {
+            p.sendMessage(ChatColor.RED + "You are already in a fight!");
+            return true;
+        }
+
+
         if (Objects.equals(targetDuelsPlayer.getFightingPlayer(), p)) {
             // accpeted fight
             duelsPlayerMap.get(p).setFightingPlayer(targetPlayer);
@@ -72,8 +79,24 @@ public class Versus implements CommandExecutor {
                 new Fight(p, targetPlayer, new Arena(args[1]), new Kit(args[2])).startFight();
             } catch (Exception ignored) {}
         } else {
-            if (args.length != 1) {
-                return true;
+            if (Objects.equals(args[0], "deny")) {
+                if (args.length != 2) {
+                    p.sendMessage(ChatColor.RED + "/1v1 deny (player)");
+                    return true;
+                }
+                String tpName = args[1];
+                Player tp = Bukkit.getPlayer(tpName);
+                if (Objects.isNull(tp)) {
+                    p.sendMessage(ChatColor.RED + tpName + " is not online!");
+                    return true;
+                }
+                DuelsPlayer duelsTargetPlayer = duelsPlayerMap.get(tp);
+                if (duelsTargetPlayer.getFightingPlayer() != p) {
+                    p.sendMessage(ChatColor.RED + "There was no duel request from " + tpName + "!");
+                    return true;
+                }
+                duelsTargetPlayer.setFightingPlayer(null);
+                tp.sendMessage(ChatColor.RED + p.getDisplayName() + " rejected your duel request...");
             }
             new VersusGUI(targetPlayer).openInventory(p);
         }

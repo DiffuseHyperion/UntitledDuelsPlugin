@@ -12,6 +12,7 @@ import org.bukkit.WorldCreator;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,11 +20,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public final class UntitledDuelsPlugin extends JavaPlugin {
+import static me.diffusehyperion.untitledduelsplugin.Classes.LobbyListener.noCollisionTeam;
+
+public final class UntitledDuelsPlugin extends JavaPlugin implements Listener {
 
     public static Plugin plugin;
     public static FileConfiguration data;
     public static File dataFile;
+    public static FileConfiguration config;
 
     @Override
     public void onEnable() {
@@ -40,11 +44,15 @@ public final class UntitledDuelsPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        if (Objects.nonNull(noCollisionTeam)) {
+            noCollisionTeam.unregister();
+        }
     }
 
     private void initConfig() {
         plugin = this;
+        this.saveDefaultConfig();
+        config = this.getConfig();
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdirs();
         }

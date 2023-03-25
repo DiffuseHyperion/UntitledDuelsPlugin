@@ -44,18 +44,8 @@ public class Arena {
         this.world = createVoidWorld(name);
 
         this.owner = data.getString(dataName + ".owner");
-        this.spawn1 = new Location(world,
-                data.getInt(dataName + ".spawn1.x"),
-                data.getInt(dataName + ".spawn1.y"),
-                data.getInt(dataName + ".spawn1.z"),
-                data.getInt(dataName + ".spawn1.pitch"),
-                data.getInt(dataName + ".spawn1.yaw"));
-        this.spawn2 = new Location(world,
-                data.getInt(dataName + ".spawn2.x"),
-                data.getInt(dataName + ".spawn2.y"),
-                data.getInt(dataName + ".spawn2.z"),
-                data.getInt(dataName + ".spawn2.pitch"),
-                data.getInt(dataName + ".spawn2.yaw"));
+        this.spawn1 = new me.diffusehyperion.untitledduelsplugin.Classes.Location(dataName + ".spawn1").toLocation();
+        this.spawn2 = new me.diffusehyperion.untitledduelsplugin.Classes.Location(dataName + ".spawn2").toLocation();
         // i know there is data.getLocation but this is cleaner in data.yml lol
     }
 

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
-import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.data;
+import static me.diffusehyperion.untitledduelsplugin.Classes.Location.setLocation;
 import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.saveData;
 
 public class Lobby implements CommandExecutor {
@@ -23,7 +23,7 @@ public class Lobby implements CommandExecutor {
         Player p = (Player) commandSender;
 
         if (args.length == 0) {
-            Location lobby = data.getLocation("lobby");
+            Location lobby = new me.diffusehyperion.untitledduelsplugin.Classes.Location("lobby").toLocation();
             if (Objects.isNull(lobby)) {
                 p.sendMessage(ChatColor.RED + "The lobby has not been setup yet! Do /lobby set to set the lobby.");
                 return true;
@@ -33,13 +33,13 @@ public class Lobby implements CommandExecutor {
         } else {
             switch (args[0]) {
                 case "set": {
-                    data.set("lobby", p.getLocation());
+                    setLocation("lobby", p.getLocation());
                     saveData();
                     p.sendMessage(ChatColor.GREEN + "Done!");
                     break;
                 }
                 case "tp": {
-                    Location lobby = data.getLocation("lobby");
+                    Location lobby = new me.diffusehyperion.untitledduelsplugin.Classes.Location("lobby").toLocation();
                     if (Objects.isNull(lobby)) {
                         p.sendMessage(ChatColor.RED + "The lobby has not been setup yet! Do /lobby set to set the lobby.");
                         return true;

@@ -1,0 +1,5 @@
+lobby:
+  forcetp: false
+  blindness: false
+  invisibility: false
+  no_collision: false

@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
+import static me.diffusehyperion.untitledduelsplugin.Classes.Location.setLocation;
 import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.*;
 
 public class Arenas implements CommandExecutor {
@@ -115,11 +116,7 @@ public class Arenas implements CommandExecutor {
                 } else {
                     spawnName = dataName + "." + "spawn2";
                 }
-                data.set(spawnName + ".x", p.getLocation().getX());
-                data.set(spawnName + ".y", p.getLocation().getY());
-                data.set(spawnName + ".z", p.getLocation().getZ());
-                data.set(spawnName + ".pitch", p.getLocation().getPitch());
-                data.set(spawnName + ".yaw", p.getLocation().getYaw());
+                setLocation(spawnName, p.getLocation());
                 // reconstruct a location when it needs to be used
 
                 saveData();

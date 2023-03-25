@@ -182,14 +182,18 @@ public class VersusGUI implements Listener {
                 p.closeInventory();
 
                 duelingPlayer.spigot().sendMessage(
-                        new ComponentBuilder(p.getDisplayName() + " wants to 1v1 you!").color(net.md_5.bungee.api.ChatColor.RED).create());
+                        new ComponentBuilder(p.getDisplayName() + " wants to 1v1 you...").color(net.md_5.bungee.api.ChatColor.RED).create());
                 duelingPlayer.spigot().sendMessage(
-                        new ComponentBuilder("Accept?       ").color(net.md_5.bungee.api.ChatColor.DARK_RED)
+                        new ComponentBuilder("...on " + arena.getName()).color(net.md_5.bungee.api.ChatColor.GOLD).create());
+                duelingPlayer.spigot().sendMessage(
+                        new ComponentBuilder("...with the kit " + kit.getName()).color(net.md_5.bungee.api.ChatColor.GOLD).create());
+                duelingPlayer.spigot().sendMessage(
+                        new ComponentBuilder("Accept?       ").color(net.md_5.bungee.api.ChatColor.RED)
                                 .append("[YES]").color(net.md_5.bungee.api.ChatColor.GREEN)
                                 .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/1v1 " + p.getDisplayName() + " " + arena.getName() + " " + kit.getName()))
                                 .append("   ")
                                 .append("[NO]").color(net.md_5.bungee.api.ChatColor.RED)
-                                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/kill DiffuseHyperion"))
+                                .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/1v1 deny " + p.getDisplayName()))
                                 .create());
 
                 HandlerList.unregisterAll(this);
