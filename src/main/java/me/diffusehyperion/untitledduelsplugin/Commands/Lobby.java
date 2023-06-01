@@ -23,13 +23,15 @@ public class Lobby implements CommandExecutor {
         Player p = (Player) commandSender;
 
         if (args.length == 0) {
-            Location lobby = new me.diffusehyperion.untitledduelsplugin.Classes.Location("lobby").toLocation();
-            if (Objects.isNull(lobby)) {
+            Location lobby;
+            try {
+                lobby = new me.diffusehyperion.untitledduelsplugin.Classes.Location("lobby").toLocation();
+                p.teleport(lobby);
+                p.sendMessage(ChatColor.GREEN + "Done!");
+            } catch (NullPointerException e) {
                 p.sendMessage(ChatColor.RED + "The lobby has not been setup yet! Do /lobby set to set the lobby.");
                 return true;
             }
-            p.teleport(lobby);
-            p.sendMessage(ChatColor.GREEN + "Done!");
         } else {
             switch (args[0]) {
                 case "set": {
