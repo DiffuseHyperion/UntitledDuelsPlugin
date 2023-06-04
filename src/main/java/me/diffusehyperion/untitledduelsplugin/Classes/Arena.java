@@ -1,5 +1,6 @@
 package me.diffusehyperion.untitledduelsplugin.Classes;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -14,11 +15,16 @@ public class Arena {
 
     public static List<Arena> arenaList = new ArrayList<>();
 
+    /**
+    Whether the arena is ready to use (spawns set)
+     */
+    public boolean ready;
+
     private final String name;
     private final String owner;
     private final World world;
-    private final Location spawn1;
-    private final Location spawn2;
+    private Location spawn1;
+    private Location spawn2;
 
     public Arena(String name, String owner, World world, Location spawn1, Location spawn2) throws Exception {
         this.name = name;
@@ -44,8 +50,14 @@ public class Arena {
         this.world = createVoidWorld(name);
 
         this.owner = data.getString(dataName + ".owner");
-        this.spawn1 = new me.diffusehyperion.untitledduelsplugin.Classes.Location(dataName + ".spawn1").toLocation();
-        this.spawn2 = new me.diffusehyperion.untitledduelsplugin.Classes.Location(dataName + ".spawn2").toLocation();
+        try {
+            this.spawn1 = new me.diffusehyperion.untitledduelsplugin.Classes.Location(dataName + ".spawn1").toLocation();
+            this.spawn2 = new me.diffusehyperion.untitledduelsplugin.Classes.Location(dataName + ".spawn2").toLocation();
+            this.ready = false;
+        } catch (NullPointerException e) {
+            Bukkit.getLogger().warning("Arena " + name + " doesn't have their spawns set! Disabling it for now.");
+            this.ready = false;
+        }
         // i know there is data.getLocation but this is cleaner in data.yml lol
     }
 

@@ -41,10 +41,8 @@ public class VersusGUI implements Listener {
         this.duelingPlayer = duelingPlayer;
         this.arena = null;
         this.kit = null;
-        // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
         inv = Bukkit.createInventory(null, 27, "Dueling " + duelingPlayer.getDisplayName());
 
-        // Put the items into the inventory
         initializeItems();
     }
 
@@ -87,7 +85,6 @@ public class VersusGUI implements Listener {
 
 
 
-    // You can call this whenever you want to put the items in
     public void initializeItems() {
         for (int i = 0; i < 27; i++) {
             switch (i) {
@@ -119,16 +116,13 @@ public class VersusGUI implements Listener {
         }
     }
 
-    // Nice little method to create a gui item with a custom name, and description
     protected ItemStack createGuiItem(final Material material, final String name, final String... lore) {
         final ItemStack item = new ItemStack(material, 1);
         final ItemMeta meta = item.getItemMeta();
 
-        // Set the name of the item
         assert meta != null;
         meta.setDisplayName(name);
 
-        // Set the lore of the item
         meta.setLore(Arrays.asList(lore));
 
         item.setItemMeta(meta);
@@ -136,13 +130,11 @@ public class VersusGUI implements Listener {
         return item;
     }
 
-    // You can open the inventory with this
     public void openInventory(final HumanEntity ent) {
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
         ent.openInventory(inv);
     }
 
-    // Check for clicks on items
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent e) {
         if (!e.getInventory().equals(inv)) return;
@@ -151,12 +143,10 @@ public class VersusGUI implements Listener {
 
         final ItemStack clickedItem = e.getCurrentItem();
 
-        // verify current item is not null
         if (clickedItem == null || clickedItem.getType().isAir()) return;
 
         final Player p = (Player) e.getWhoClicked();
 
-        // Using slots click is a best option for your inventory click's
         switch (e.getRawSlot()) {
             case 11: {
                 versusKitsGUI.openInventory(p);
@@ -208,7 +198,6 @@ public class VersusGUI implements Listener {
         }
     }
 
-    // Cancel dragging in our inventory
     @EventHandler
     public void onInventoryClick(final InventoryDragEvent e) {
         if (e.getInventory().equals(inv)) {

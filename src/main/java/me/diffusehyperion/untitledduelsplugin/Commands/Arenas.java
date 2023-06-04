@@ -112,9 +112,9 @@ public class Arenas implements CommandExecutor {
 
                 String spawnName;
                 if (spawn == 1) {
-                    spawnName = dataName + "." + "spawn1";
+                    spawnName = dataName + ".spawn1";
                 } else {
-                    spawnName = dataName + "." + "spawn2";
+                    spawnName = dataName + ".spawn2";
                 }
                 setLocation(spawnName, p.getLocation());
                 // reconstruct a location when it needs to be used

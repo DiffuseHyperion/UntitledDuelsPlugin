@@ -26,15 +26,12 @@ public class VersusArenasGUI implements Listener {
     private final VersusGUI gui;
 
     public VersusArenasGUI(VersusGUI gui) {
-        // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
         inv = Bukkit.createInventory(null, 9, "Select Arena");
         this.gui = gui;
 
-        // Put the items into the inventory
         initializeItems();
     }
 
-    // You can call this whenever you want to put the items in
     public void initializeItems() {
         inv.clear();
 
@@ -44,16 +41,13 @@ public class VersusArenasGUI implements Listener {
         }
     }
 
-    // Nice little method to create a gui item with a custom name, and description
     protected ItemStack createSkullItem(final String name, final String owner, final String... lore) {
         final ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1);
         final SkullMeta meta = (SkullMeta) item.getItemMeta();
 
-        // Set the name of the item
         assert meta != null;
         meta.setDisplayName(name);
 
-        // Set the lore of the item
         meta.setLore(Arrays.asList(lore));
         meta.setOwnerProfile(Bukkit.getServer().createPlayerProfile(owner));
         item.setItemMeta(meta);
@@ -61,14 +55,12 @@ public class VersusArenasGUI implements Listener {
         return item;
     }
 
-    // You can open the inventory with this
     public void openInventory(final HumanEntity ent) {
         initializeItems();
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
         ent.openInventory(inv);
     }
 
-    // Check for clicks on items
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent e) {
         if (!e.getInventory().equals(inv)) return;
@@ -94,7 +86,6 @@ public class VersusArenasGUI implements Listener {
         }
     }
 
-    // Cancel dragging in our inventory
     @EventHandler
     public void onInventoryClick(final InventoryDragEvent e) {
         if (e.getInventory().equals(inv)) {
