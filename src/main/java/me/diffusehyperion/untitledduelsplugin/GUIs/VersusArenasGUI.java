@@ -69,12 +69,10 @@ public class VersusArenasGUI implements Listener {
 
         final ItemStack clickedItem = e.getCurrentItem();
 
-        // verify current item is not null
         if (clickedItem == null || clickedItem.getType().isAir()) return;
 
         final Player p = (Player) e.getWhoClicked();
 
-        // Using slots click is a best option for your inventory click's
         String arenaName = Objects.requireNonNull(clickedItem.getItemMeta()).getDisplayName();
         try {
             gui.setArena(new Arena(arenaName));

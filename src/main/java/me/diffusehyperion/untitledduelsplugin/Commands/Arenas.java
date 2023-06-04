@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import static me.diffusehyperion.untitledduelsplugin.Classes.Location.setLocation;
@@ -46,7 +47,9 @@ public class Arenas implements CommandExecutor {
                 p.setGameMode(GameMode.CREATIVE);
 
                 data.createSection(dataName);
-                data.set(dataName + ".owner", p.getDisplayName());
+                data.set(dataName + ".allowedPlayers", new ArrayList<>().add(p.getDisplayName()));
+                setLocation(dataName + ".spawn1", world.getSpawnLocation());
+                setLocation(dataName + ".spawn2", world.getSpawnLocation());
                 saveData();
 
                 p.sendMessage(ChatColor.GREEN + "Done! Rejoin the world with /arena join " + arenaName);

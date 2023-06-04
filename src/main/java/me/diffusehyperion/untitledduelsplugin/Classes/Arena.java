@@ -14,19 +14,13 @@ import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.data;
 public class Arena {
 
     public static List<Arena> arenaList = new ArrayList<>();
-
-    /**
-    Whether the arena is ready to use (spawns set)
-     */
-    public boolean ready;
-
     private final String name;
-    private final String owner;
+    private List<String> allowedPlayers = new ArrayList<>();
     private final World world;
     private Location spawn1;
     private Location spawn2;
 
-    public Arena(String name, String owner, World world, Location spawn1, Location spawn2) throws Exception {
+    public Arena(String name, List<String> allowedPlayers, World world, Location spawn1, Location spawn2) throws Exception {
         this.name = name;
         if (!Objects.equals(spawn1.getWorld(), world)) {
             throw new Exception(name + "'s spawn 1 has a different world than the arena world!");
@@ -34,7 +28,7 @@ public class Arena {
         if (!Objects.equals(spawn2.getWorld(), world)) {
             throw new Exception(name + "'s spawn 2 has a different world than the arena world!");
         }
-        this.owner = owner;
+        this.allowedPlayers = allowedPlayers;
         this.world = world;
         this.spawn1 = spawn1;
         this.spawn2 = spawn2;
@@ -49,14 +43,12 @@ public class Arena {
 
         this.world = createVoidWorld(name);
 
-        this.owner = data.getString(dataName + ".owner");
+        this.allowedPlayers = data.getStringList(dataName + ".allowedPlayers");
         try {
             this.spawn1 = new me.diffusehyperion.untitledduelsplugin.Classes.Location(dataName + ".spawn1").toLocation();
             this.spawn2 = new me.diffusehyperion.untitledduelsplugin.Classes.Location(dataName + ".spawn2").toLocation();
-            this.ready = false;
         } catch (NullPointerException e) {
-            Bukkit.getLogger().warning("Arena " + name + " doesn't have their spawns set! Disabling it for now.");
-            this.ready = false;
+            Bukkit.getLogger().warning("Arena " + name + " doesn't have their spawns set! Skipping it for now.");
         }
         // i know there is data.getLocation but this is cleaner in data.yml lol
     }
@@ -78,8 +70,8 @@ public class Arena {
         return name;
     }
 
-    public String getOwner() {
-        return owner;
+    public List<String> getAllowedPlayers() {
+        return allowedPlayers;
     }
 
     public World getWorld() {
