@@ -7,7 +7,7 @@ libraries:
   - commons-io:commons-io:2.11.0
 commands:
   arenas:
-    usage: /arena (create/join/set)
+    usage: /arena (create/join/set/add)
   stats:
     usage: /stats (wins/loses) (player)
   1v1:

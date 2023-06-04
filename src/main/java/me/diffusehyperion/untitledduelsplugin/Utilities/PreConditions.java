@@ -3,14 +3,12 @@ package me.diffusehyperion.untitledduelsplugin.Utilities;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Objects;
-
 import static me.diffusehyperion.untitledduelsplugin.UntitledDuelsPlugin.data;
 
 public class PreConditions {
 
-    public static boolean isOwner(String arenaName, Player player) {
-        return Objects.equals(data.getString("arenas." + arenaName + ".owner"), player.getDisplayName());
+    public static boolean isAllowed(String arenaName, Player player) {
+        return data.getStringList("arenas." + arenaName + ".allowedPlayers").contains(player.getDisplayName());
     }
 
     public static boolean isArena(String arenaName) {

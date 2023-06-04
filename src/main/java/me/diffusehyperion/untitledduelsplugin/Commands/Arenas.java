@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static me.diffusehyperion.untitledduelsplugin.Classes.Location.setLocation;
@@ -24,7 +25,7 @@ public class Arenas implements CommandExecutor {
         Player p = (Player) commandSender;
 
         if (args.length == 0) {
-            p.sendMessage(ChatColor.RED + "/arena (create/join/set)");
+            p.sendMessage(ChatColor.RED + "/arena (create/join/set/add)");
             return true;
         }
         switch (args[0]) {
@@ -47,7 +48,9 @@ public class Arenas implements CommandExecutor {
                 p.setGameMode(GameMode.CREATIVE);
 
                 data.createSection(dataName);
-                data.set(dataName + ".allowedPlayers", new ArrayList<>().add(p.getDisplayName()));
+                List<String> allowedPlayers = new ArrayList<>();
+                allowedPlayers.add(p.getDisplayName());
+                data.set(dataName + ".allowedPlayers", allowedPlayers);
                 setLocation(dataName + ".spawn1", world.getSpawnLocation());
                 setLocation(dataName + ".spawn2", world.getSpawnLocation());
                 saveData();
@@ -67,7 +70,7 @@ public class Arenas implements CommandExecutor {
                     return true;
                 }
 
-                if (!PreConditions.isOwner(arenaName, p)) {
+                if (!PreConditions.isAllowed(arenaName, p)) {
                     p.sendMessage(ChatColor.RED + "You dont have permissions to join this arena!");
                     return true;
                 }
@@ -108,7 +111,7 @@ public class Arenas implements CommandExecutor {
                     p.sendMessage(ChatColor.RED + "You are not in an arena world!");
                     return true;
                 }
-                if (!PreConditions.isOwner(arenaName, p)) {
+                if (!PreConditions.isAllowed(arenaName, p)) {
                     p.sendMessage(ChatColor.RED + "You dont have permissions to join this arena!");
                     return true;
                 }
@@ -129,8 +132,35 @@ public class Arenas implements CommandExecutor {
                 p.sendMessage(ChatColor.GREEN + "Spawn point " + spawn + " has been set!");
                 return true;
             }
+            case "add": {
+                if (args.length != 3) {
+                    p.sendMessage(ChatColor.RED + "/arena add (arena name) (player name)");
+                    return true;
+                }
+                String arenaName = args[1];
+                String playerName = args[2];
+
+                if (!PreConditions.isArena(arenaName)) {
+                    p.sendMessage(ChatColor.RED + "There is no arena called " + arenaName + "!");
+                    return true;
+                }
+
+                if (!PreConditions.isAllowed(arenaName, p)) {
+                    p.sendMessage(ChatColor.RED + "You don't have permissions to invite players to this arena!");
+                    return true;
+                }
+                String dataName = "arenas." + arenaName + ".allowedPlayers";
+                List<String> allowedPlayers = data.getStringList(dataName);
+                allowedPlayers.add(playerName);
+                data.set(dataName, allowedPlayers);
+                saveData();
+
+                p.sendMessage(ChatColor.GREEN + "Invited " + playerName + " to arena " + arenaName + "!");
+                return true;
+            }
+
             default: {
-                p.sendMessage(ChatColor.RED + "/arena (create/join/set)");
+                p.sendMessage(ChatColor.RED + "/arena (create/join/set/add)");
                 return true;
             }
         }
